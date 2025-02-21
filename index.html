@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perceptron (Machine Learning)</title>
+
+    <!-- Link to external CSS file (if needed) -->
+    <link rel="stylesheet" href="styles.css">
+    <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
+
+</head>
+<body>
+
+    <!-- Header with centered title -->
+    <header>
+        <h1>Single Layer Perceptron Neural Network</h1>
+    </header>
+
+    <div class="container">
+        <!-- Instructions Section -->
+        <div class="instructions">
+            <h3>How to use the Switches</h3>
+            <p>Use the Drop Down Menu to toggle the switches on and off. On represents '1', and Off represents '0'. 
+            Turn on the switches to see if you can make a T or a L.</p>
+        </div>
+
+        <!-- Grid container with switches -->
+        <div class="grid-container">
+            <!-- Switch 1 to Switch 16 -->
+            <div class="gridbox">
+                <label for="switch1">Switch 1</label>
+                <select id="switch1" class="switch">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                </select>
+            </div>
+            <div class="gridbox">
+                <label for="switch2">Switch 2</label>
+                <select id="switch2" class="switch">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                </select>
+            </div>
+            <div class="gridbox">
+                <label for="switch3">Switch 3</label>
+                <select id="switch3" class="switch">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                </select>
+            </div>
+            <div class="gridbox">
+                <label for="switch4">Switch 4</label>
+                <select id="switch4" class="switch">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                </select>
+            </div>
+            <div class="gridbox">
+                <label for="switch5">Switch 5</label>
+                <select id="switch5" class="switch">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                </select>
+            </div>
+            <div class="gridbox">
+                <label for="switch6">Switch 6</label>
+                <select id="switch6" class="switch">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                </select>
+            </div>
+            <div class="gridbox">
+                <label for="switch7">Switch 7</label>
+                <select id="switch7" class="switch">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                </select>
+            </div>
+            <div class="gridbox">
+                <label for="switch8">Switch 8</label>
+                <select id="switch8" class="switch">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                </select>
+            </div>
+            <div class="gridbox">
+                <label for="switch9">Switch 9</label>
+                <select id="switch9" class="switch">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                </select>
+            </div>
+            <div class="gridbox">
+                <label for="switch10">Switch 10</label>
+                <select id="switch10" class="switch">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                </select>
+            </div>
+            <div class="gridbox">
+                <label for="switch11">Switch 11</label>
+                <select id="switch11" class="switch">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                </select>
+            </div>
+            <div class="gridbox">
+                <label for="switch12">Switch 12</label>
+                <select id="switch12" class="switch">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                </select>
+            </div>
+            <div class="gridbox">
+                <label for="switch13">Switch 13</label>
+                <select id="switch13" class="switch">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                </select>
+            </div>
+            <div class="gridbox">
+                <label for="switch14">Switch 14</label>
+                <select id="switch14" class="switch">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                </select>
+            </div>
+            <div class="gridbox">
+                <label for="switch15">Switch 15</label>
+                <select id="switch15" class="switch">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                </select>
+            </div>
+            <div class="gridbox">
+                <label for="switch16">Switch 16</label>
+                <select id="switch16" class="switch">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Button to trigger prediction -->
+        <button id="get-time" py-click="process_and_predict">Predict Shape</button>
+        
+    </div>
+    
+    <!-- Display prediction result inside the section with class 'pyscript' -->
+    <section class="pyscript">
+        <div id="mpl"></div> <!-- Hidden initially -->
+
+
+        <script type="py" config="pyscript.toml">
+                import numpy as np
+                import pandas as pd
+                from pyodide.http import open_url
+                from pyscript import display
+                from pyweb import pydom
+            
+                # Manually set weights and bias
+                weights = np.array([0.010150384378451043, 0.016499158227686116, 0.029581908081026245, 0.005601120336112039, -0.016499158227686116, 0.009851843661437777, 0.005601120336112039, 0.0, 
+                            -0.016499158227686116, 0.009851843661437777, 0.005601120336112039, 0.0, -0.016499158227686116, -0.005601120336112039, -0.02905581174358119, -0.017149858514250892])
+
+                bias = -0.01
+                            
+                # Load Dataset from URL
+                dataset_url = ("https://raw.githubusercontent.com/jalger60/Machine-Learning/refs/heads/main/T_L_Dataset.csv")
+                dataset = pd.read_csv(open_url(dataset_url))
+                dataset['Label'] = dataset['Label'].replace({'T':1, 'L':-1})
+            
+                # Convert dataset to numpy array
+                dataset_np = dataset.to_numpy()
+            
+                # Shuffle dataset
+                np.random.shuffle(dataset_np)
+            
+                # Split dataset into training and testing sets (first 68 samples for training, next 29 for testing)
+                
+                X_test = dataset_np[68:97, :16] # Next 30 samples, 16 features
+                y_test = dataset_np[68:97, 16]  # Next 30 labels
+            
+                # Activation function
+                def activation_function(z):
+                    return np.where(z >= 0, 1, -1)
+                
+                # Prediction function
+                def predict(X_test, weights, bias):
+                    linear_product = np.dot(X_test, weights) + bias
+                    y_pred = activation_function(linear_product)
+                    return ["T" if pred == 1 else "L" if pred == -1 else "Unknown" for pred in y_pred]  
+            
+                # Function to get the values of the dropdowns and save them in a numpy array
+                def get_np_switch_values():
+                    s1 = int(pydom["#switch1"][0].value)
+                    s2 = int(pydom["#switch2"][0].value)
+                    s3 = int(pydom["#switch3"][0].value)
+                    s4 = int(pydom["#switch4"][0].value)
+                    s5 = int(pydom["#switch5"][0].value)
+                    s6 = int(pydom["#switch6"][0].value)
+                    s7 = int(pydom["#switch7"][0].value)
+                    s8 = int(pydom["#switch8"][0].value)
+                    s9 = int(pydom["#switch9"][0].value)
+                    s10 = int(pydom["#switch10"][0].value)
+                    s11 = int(pydom["#switch11"][0].value)
+                    s12 = int(pydom["#switch12"][0].value)
+                    s13 = int(pydom["#switch13"][0].value)
+                    s14 = int(pydom["#switch14"][0].value)
+                    s15 = int(pydom["#switch15"][0].value)
+                    s16 = int(pydom["#switch16"][0].value)
+    
+                    switch_values = [s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16]
+                    np_switches = np.array(switch_values)
+                    np_switches = np.expand_dims(np_switches, axis=0)
+
+                    return np_switches
+
+               
+            
+                # Process and predict function
+                def process_and_predict(event):
+                    test_x = get_np_switch_values()
+                    prediction = predict(test_x, weights, bias)
+                    
+                    text1 = str(prediction)
+                    predicted_class = "Predicted Shape: " + text1 
+                    ## pydom['mpl'].content =  predicted_class
+                    pydom["div#mpl"].html = predicted_class
+            </script>
+  </section>
+</body>
+</html> 
