@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perceptron (Machine Learning)</title>
 
-    <!-- Link to external CSS file (if needed) -->
+    <!-- Link to external CSS file -->
     <link rel="stylesheet" href="styles.css">
     <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
 
@@ -176,10 +176,10 @@
                 # Shuffle dataset
                 np.random.shuffle(dataset_np)
             
-                # Split dataset into training and testing sets (first 68 samples for training, next 29 for testing)
+                # Use Test Data
                 
-                X_test = dataset_np[68:97, :16] # Next 30 samples, 16 features
-                y_test = dataset_np[68:97, 16]  # Next 30 labels
+                X_test = dataset_np[60:97, :16] # Next 30 samples, 16 features
+                y_test = dataset_np[60:97, 16]  # Next 30 labels
             
                 # Activation function
                 def activation_function(z):
